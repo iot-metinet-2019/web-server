@@ -11,15 +11,15 @@ use App\Repository\MeasureRepository;
 use App\Repository\SensorMeasureRepository;
 use App\Repository\SensorRepository;
 use App\Entity\Measure;
-use App\Entity\Sensor;
 use App\Entity\SensorMeasure;
 use Symfony\Component\Serializer\SerializerInterface as Serializer;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 class MainController extends AbstractController
 {
     /**
      * Envoie toutes les données en une seul fois
-     * @Route("/init", name="init")
+     * @Rest\Get("/init")
      */
     public function index(Serializer $serializer, MeasureRepository $measureRepository, SensorMeasureRepository $sensorMeasureRepository, SensorRepository $sensorRepository)
     {
@@ -35,7 +35,7 @@ class MainController extends AbstractController
 
     /**
      * Reçoit les valeurs d'un capteur et les enregistre dans la BDD
-     * @Route("/add-data", name="add-data")
+     * @Rest\Put("/add-data")
      */
     public function addData(EntityManagerInterface $em, SensorRepository $sensorRepository, $data)
     {
