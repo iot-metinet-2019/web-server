@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,6 +10,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MeasureRepository;
 use App\Repository\SensorMeasureRepository;
 use App\Repository\SensorRepository;
+use App\Entity\Measure;
+use App\Entity\Sensor;
+use App\Entity\SensorMeasure;
 use Symfony\Component\Serializer\SerializerInterface as Serializer;
 
 class MainController extends AbstractController
@@ -30,12 +34,28 @@ class MainController extends AbstractController
     }
 
     /**
-     * Renvoi les dernières données
-     * @Route("/send-last", name="send-last")
+     * Reçoit les valeurs d'un capteur et les enregistre dans la BDD
+     * @Route("/add-data", name="add-data")
      */
-    public function sendLastData()
+    public function addData(EntityManagerInterface $em, SensorRepository $sensorRepository, $data)
     {
-        $data = ['message' => 'Hello'];
-        return $this->json($data);
+        foreach ($data as $key => $value)
+        {
+            $measure = new measure;
+            $sensorMeasure = new sensorMeasure;
+
+            $sensor = $sensorRepository->findOneBy(['mac' => $value['mac']]);
+            $measure->setTime(new \DateTime('now'));
+            $sensorMeasure->setMeasure($measure);
+            $sensorMeasure->setValue($value['value']);
+            $sensorMeasure->setSensor($sensor);
+
+            $em->persist($sensorMeasure);
+            $em->persist($measure);
+        }
+
+        $em->flush();
+
+        return new Response('OK');
     }
 }
