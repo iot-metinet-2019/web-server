@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SensorMeasureRepository")
@@ -13,12 +14,14 @@ class SensorMeasure
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"get"})
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Sensor", inversedBy="measures")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sensor", inversedBy="sensorMeasures")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"get"})
      */
     private $sensor;
 
@@ -30,6 +33,7 @@ class SensorMeasure
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"get"})
      */
     private $value;
 

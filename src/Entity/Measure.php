@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\MeasureRepository")
@@ -15,16 +16,19 @@ class Measure
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"get"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"get"})
      */
     private $time;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\SensorMeasure", mappedBy="measure", orphanRemoval=true)
+     * @Groups({"get"})
      */
     private $sensorMeasures;
 
