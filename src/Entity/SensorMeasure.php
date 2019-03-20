@@ -33,11 +33,6 @@ class SensorMeasure
      */
     private $value;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -75,18 +70,6 @@ class SensorMeasure
     public function setValue(string $value): self
     {
         $this->value = $value;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
