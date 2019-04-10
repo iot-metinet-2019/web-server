@@ -52,14 +52,13 @@ class MainController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         $measure = new Measure();
-        $sensor = $sensorRepository->findOneBy(['mac' => $value['mac']]);
-
         $measure->setTime(new \DateTime('now'));
         $em->persist($measure);
 
         foreach ($data as $key => $value)
         {
             $sensorMeasure = new SensorMeasure();
+            $sensor = $sensorRepository->findOneBy(['mac' => $value['mac']]);
             
             $sensorMeasure->setMeasure($measure);
             $sensorMeasure->setValue($value['value']);
