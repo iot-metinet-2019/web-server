@@ -33,7 +33,7 @@ class MainController extends AbstractController
      */
     public function getData(Serializer $serializer, MeasureRepository $measureRepository, $from)
     {
-        $measures = $measureRepository->findAllWithTimeGreaterThan(new \DateTime('@' . (int)$from));
+        $measures = $measureRepository->findAllWithTimeGreaterThan(new \DateTime('@' . $from));
         $measuresData = $serializer->serialize($measures, 'json', ['groups' => 'get']);
 
         return new JsonResponse($measuresData, 200, [], true);
@@ -67,7 +67,7 @@ class MainController extends AbstractController
         {
             $sensorMeasure = new SensorMeasure();
             $sensor = $sensorRepository->findOneBy(['mac' => $value['mac']]);
-            
+
             $sensorMeasure->setMeasure($measure);
             $sensorMeasure->setValue($value['value']);
             $sensorMeasure->setSensor($sensor);
