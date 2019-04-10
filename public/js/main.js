@@ -73,7 +73,6 @@
 
             for(var measure of data)
             {
-		console.log('m');
                 times.push(measure.time);
 
                 for(var sensorMeasure of measure.sensorMeasures)
@@ -102,6 +101,8 @@
         sensors = JSON.parse(this.responseText);
 
         initGraphs();
+        updateGraphs();
+        
         setInterval(() => {
             updateGraphs();
         }, 5000);
