@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\MeasureRepository;
 use App\Repository\SensorMeasureRepository;
@@ -46,8 +47,10 @@ class MainController extends AbstractController
      * Reçoit les valeurs d'un capteur et les enregistre dans la BDD
      * @Rest\Put("/add-data")
      */
-    public function addData(EntityManagerInterface $em, SensorRepository $sensorRepository, $data)
+    public function addData(EntityManagerInterface $em, SensorRepository $sensorRepository, Request $request)
     {
+	$data = json_decode($request->getContent(), true);
+
         foreach ($data as $key => $value)
         {
             $measure = new measure;
