@@ -20,5 +20,3 @@
 
 # Development mode
 /.env
-/public/css/*
-!/public/css/.gitkeep
