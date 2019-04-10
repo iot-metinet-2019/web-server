@@ -17,11 +17,20 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 
 class MainController extends AbstractController
 {
+
+    /**
+     * Vue principale
+     * @Route("/", name="root")
+     */
+    public function index(){
+        return $this->render('main.html.twig');
+    }
+
     /**
      * Envoie toutes les données en une seul fois
      * @Rest\Get("/init")
      */
-    public function index(Serializer $serializer, MeasureRepository $measureRepository, SensorMeasureRepository $sensorMeasureRepository, SensorRepository $sensorRepository)
+    public function init(Serializer $serializer, MeasureRepository $measureRepository, SensorMeasureRepository $sensorMeasureRepository, SensorRepository $sensorRepository)
     {
         $measures = $measureRepository->findAll();
         $sensors     = $sensorRepository->findAll();

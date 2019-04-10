@@ -1,0 +1,12 @@
+@mixin media($mediaInput) {
+    @if('mobile' == $mediaInput){
+        @media screen and (max-width: $mobileAndTabletSize) {
+            @content;
+        }
+    }
+    @if ('desktop' == $mediaInput) {
+        @media screen and (min-width: $desktopAndLaptopMiniumSize) {
+            @content;
+        }
+    }
+}

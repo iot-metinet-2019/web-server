@@ -1,0 +1,155 @@
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  header {
+    max-width: 200px;
+    height: calc(100%);
+    overflow-y: auto;
+    background-color: $thirdColor;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 15px;
+    box-sizing: border-box;
+    // @include basicShadow();
+    // .brand{
+    //     cursor: pointer;
+    // }
+    // .responsive-menu-button{
+    //     $size: 40px;
+    //     height: $size;
+    //     width: $size;
+    //     display: flex;
+    //     align-items: center;
+    //     flex-direction: column;
+    //     justify-content: space-around;
+    //     position: relative;
+    //     cursor: pointer;
+    //     span{
+    //         height: 13%;
+    //         width: 100%;
+    //         background-color: $blade;
+    //         transition: transform 0.15s linear;
+    //     }
+    //     &.activated{
+    //         span{
+    //             &:nth-child(1){
+    //                 transform: rotateZ(-135deg) translateY(-10px) translateX(-10px)
+    //             }
+    //             &:nth-child(2){
+    //                 transform: rotateY(90deg);
+    //             }
+    //             &:nth-child(3){
+    //                 transform: rotateZ(135deg) translateX(-9px) translateY(9px)
+    //             }
+    //         }
+    //     }
+    //     @include media('desktop'){
+    //         display: none;
+    //     }
+    //     @include media('mobile'){
+    //         display: flex;
+    //     }
+    // }
+    nav {
+      a {
+        text-decoration: none;
+        li {
+          color: #000;
+        }
+      }
+    }
+    // nav {
+    //     display: flex;
+    //     transition: all 0.25s ease-in-out;
+    //     & > * {
+    //         display: block;
+    //     }
+    //     li{
+    //         list-style: none;
+    //         padding: 10px 15px;
+    //         cursor: pointer;
+    //         margin-right: 20px;
+    //         position: relative;
+    //         &::after{
+    //             content: "";
+    //             background-color: $secondaryColor;
+    //             height: 0%;
+    //             width: 0%;
+    //             position: absolute;
+    //             z-index: -1;
+    //             bottom: 0;
+    //             left: 0;
+    //             transition: all 0.15s ease-in-out;
+    //         }
+    //         &:hover{
+    //             &::after{
+    //                 height: 100%;
+    //                 width: 100%;
+    //             }
+    //         }
+    //     }
+    //     @include media('mobile'){
+    //         position: absolute;
+    //         width: 100%;
+    //         // padding-top: $heightNav;
+    //         height: 100vh;
+    //         background-color: $primaryColor;
+    //         top: 0;
+    //         left: 100%;
+    //         z-index: -1;
+    //         flex-direction: column;
+    //         align-items: center;
+    //         &.displayed{
+    //             left: 0;
+    //         }
+    //         li{
+    //             margin: 15px;
+    //         }
+    //     }
+    // }
+  }
+  main {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    height: 100%;
+    width: calc(100% - 200px);
+    padding: 5%;
+    box-sizing: border-box;
+    // .color-panel{
+    //     $heigth: 200px;
+    //     height: $heigth;
+    //     width: $heigth;
+    //     text-align: center;
+    //     line-height: $heigth;
+    //     &:nth-child(1){
+    //         background-color: $primaryColor;
+    //     }
+    //     &:nth-child(2){
+    //         background-color: $secondaryColor;
+    //     }
+    //     &:nth-child(3){
+    //         background-color: $thirdColor;
+    //     }
+    //     &:nth-child(4){
+    //         background-color: $fourthColor;
+    //     }
+    //     &:nth-child(5){
+    //         background-color: $bladeColor;
+    //     }
+    //     &:nth-child(6){
+    //         background-color: $testColor;
+    //     }
+    // }
+    .chart {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
