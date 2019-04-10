@@ -36,7 +36,7 @@ class MainController extends AbstractController
         $measures = $measureRepository->findAllWithTimeGreaterThan(new DateTime('@' . (int)$from));
         $measuresData = $serializer->serialize($measures, 'json', ['groups' => 'get']);
 
-        return new JsonResponse(json_encode($measures), 200, [], true);
+        return new JsonResponse(json_encode($measuresData), 200, [], true);
     }
 
     /**
@@ -48,7 +48,7 @@ class MainController extends AbstractController
         $sensors = $sensorRepository->findAll();
         $sensorsData = $serializer->serialize($sensors, 'json', ['groups' => 'sensors']);
 
-        return new JsonResponse(json_encode($data), 200, [], true);
+        return new JsonResponse(json_encode($sensorsData), 200, [], true);
     }
 
     /**
