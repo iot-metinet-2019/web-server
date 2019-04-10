@@ -37,121 +37,88 @@ let sensorsLength;
 
 let colors = new Array();
 
-function loadGraphs() {
-  const model = {
-    sensors: [
-      {
-        id: 1,
-        name: "Temperature",
-        mac: "Adresse mac",
-        type: "float"
-      }
-    ],
-    measures: [
-      {
-        id: 1,
-        time: new Date("April 2, 2019 03:24:00"),
-        sensorMeasures: [
-          {
-            value: "15",
-            sensor: {
-              id: 1,
-              name: "Temperature",
-              mac: "Adresse mac",
-              type: "float"
-            }
-          }
-        ]
-      },
-      {
-        id: 2,
-        time: new Date("April 3, 2019 03:24:00"),
-        sensorMeasures: [
-          {
-            value: "13",
-            sensor: {
-              id: 1,
-              name: "Temperature",
-              mac: "Adresse mac",
-              type: "float"
-            }
-          }
-        ]
-      },
-      {
-        id: 3,
-        time: new Date("April 4, 2019 03:24:00"),
-        sensorMeasures: [
-          {
-            value: "9",
-            sensor: {
-              id: 1,
-              name: "Temperature",
-              mac: "Adresse mac",
-              type: "float"
-            }
-          }
-        ]
-      }
-    ]
-  };
+const apiUrl = window.location.origin;
 
-  sensors = [...model.sensors];
-  sensorsLength = sensors.length;
+function createXMLHttpRequestObject(){
+  return new XMLHttpRequest();
+}
 
-  mainComponent.innerHTML = "";
-  navComponentDOM.innerHTML = "";
-  // navComponentDOM.innerHTML = "<li>Ajouter un capteur</li>";
-
-  colors = ["#3e95cd"];
-
-  for (let i = 0; i < sensorsLength; ++i) {
-    const uniqClass = "js-chart-" + sensors[i].id;
-    const uniqId = uniqClass + "id";
-
-    mainComponent.innerHTML +=
-      '<canvas id="' + uniqId + '" class="' + uniqClass + '"></canvas>';
-    navComponentDOM.innerHTML +=
-      '<a href="#' + uniqId + '"><li>' + sensors[i].name + "</li></a>";
-
-    const canvas = document.getElementsByClassName(uniqClass)[0];
-    const ctx = canvas.getContext("2d");
-
-    const measureslength = model.measures.length;
-
-    const temperatureDates = new Array();
-    const temperatureValues = new Array();
-
-    for (var j = 0; j < measureslength; ++j) {
-      const measure = model.measures[j];
-      const sensorMeasuresLength = measure.sensorMeasures.length;
-      for (var k = 0; k < sensorMeasuresLength; ++k) {
-        const sensorMeasure = measure.sensorMeasures[k];
-        switch (sensorMeasure.sensor.name) {
-          case "Temperature":
-            temperatureDates.push(measure.time);
-            temperatureValues.push(sensorMeasure.value);
-            break;
-        }
+function getData(resolve){
+  const request = createXMLHttpRequestObject();
+  request.onload = (e) => {
+    if (request.readyState === 4) {
+      if (request.status === 200) {
+        resolve(JSON.parse(request.responseText));
       }
     }
-
-    const myChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: temperatureDates,
-        datasets: [
-          {
-            data: temperatureValues,
-            label: "Température",
-            borderColor: colors[i],
-            fill: false
-          }
-        ]
-      },
-      options: chartJSOptions
-    });
   }
+  request.open('GET', apiUrl + '/init', false);
+  request.send(null);
+}
+
+function loadGraphs() {
+  const httpRequest = new Promise((resolve) => getData(resolve));
+  
+  httpRequest.then((response) => {
+    const model = response;
+    
+    sensors = [...model.sensors];
+    sensorsLength = sensors.length;
+  
+    mainComponent.innerHTML = "";
+    navComponentDOM.innerHTML = "";
+    // navComponentDOM.innerHTML = "<li>Ajouter un capteur</li>";
+  
+    colors = ["#3e95cd"];
+  
+    for (let i = 0; i < sensorsLength; ++i) {
+      const uniqClass = "js-chart-" + sensors[i].id;
+      const uniqId = uniqClass + "id";
+  
+      mainComponent.innerHTML +=
+        '<canvas id="' + uniqId + '" class="' + uniqClass + '"></canvas>';
+      navComponentDOM.innerHTML +=
+        '<a href="#' + uniqId + '"><li>' + sensors[i].name.charAt(0).toUpperCase() + sensors[i].name.slice(1) + "</li></a>";
+  
+      const canvas = document.getElementsByClassName(uniqClass)[0];
+      const ctx = canvas.getContext("2d");
+  
+      const measureslength = model.measures.length;
+  
+      const temperatureDates = new Array();
+      const temperatureValues = new Array();
+  
+      for (var j = 0; j < measureslength; ++j) {
+        const measure = model.measures[j];
+        const sensorMeasuresLength = measure.sensorMeasures.length;
+        for (var k = 0; k < sensorMeasuresLength; ++k) {
+          const sensorMeasure = measure.sensorMeasures[k];
+          switch (sensorMeasure.sensor.name) {
+            case "temperature":
+              temperatureDates.push(measure.time);
+              temperatureValues.push(sensorMeasure.value);
+              break;
+          }
+        }
+      }
+  
+      const myChart = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: temperatureDates,
+          datasets: [
+            {
+              data: temperatureValues,
+              label: "Température",
+              borderColor: colors[i],
+              fill: false
+            }
+          ]
+        },
+        options: chartJSOptions
+      });
+    }
+  })
 }
 
 loadGraphs();
