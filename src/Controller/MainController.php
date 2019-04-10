@@ -49,25 +49,27 @@ class MainController extends AbstractController
      */
     public function addData(EntityManagerInterface $em, SensorRepository $sensorRepository, Request $request)
     {
-	$data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true);
+
+        $measure = new Measure();
+        $sensor = $sensorRepository->findOneBy(['mac' => $value['mac']]);
+
+        $measure->setTime(new \DateTime('now'));
+        $em->persist($measure);
 
         foreach ($data as $key => $value)
         {
-            $measure = new measure;
-            $sensorMeasure = new sensorMeasure;
-
-            $sensor = $sensorRepository->findOneBy(['mac' => $value['mac']]);
-            $measure->setTime(new \DateTime('now'));
+            $sensorMeasure = new SensorMeasure();
+            
             $sensorMeasure->setMeasure($measure);
             $sensorMeasure->setValue($value['value']);
             $sensorMeasure->setSensor($sensor);
 
             $em->persist($sensorMeasure);
-            $em->persist($measure);
         }
 
         $em->flush();
 
-        return new Response('OK');
+        return new Response('');
     }
 }
