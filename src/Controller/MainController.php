@@ -33,7 +33,7 @@ class MainController extends AbstractController
      */
     public function getData(Serializer $serializer, MeasureRepository $measureRepository, $from)
     {
-        $measures = $measureRepository->findAllWithTimeGreaterThan(new DateTime('@' . (int)$from));
+        $measures = $measureRepository->findAllWithTimeGreaterThan(new \DateTime('@' . (int)$from));
         $measuresData = $serializer->serialize($measures, 'json', ['groups' => 'get']);
 
         return new JsonResponse($measuresData, 200, [], true);

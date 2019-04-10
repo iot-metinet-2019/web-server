@@ -33,7 +33,7 @@
             sensor.ctx = canvas.getContext('2d');
             sensor.values = [];
 
-            sensor.chart = new Chart(ctx, {
+            sensor.chart = new Chart(sensor.ctx, {
                 type: "line",
                 data: {
                     labels: times,
@@ -73,19 +73,19 @@
 
             for(var measure of data)
             {
-                times.push(data.time);
+		console.log('m');
+                times.push(measure.time);
 
-                for(var sensorMeasure of sensor.sensorMeasures)
+                for(var sensorMeasure of measure.sensorMeasures)
                     for(var sensor of sensors)
                         if(sensor.id === sensorMeasure.sensor.id)
                             sensor.values.push(sensorMeasure.value);
-
-                for(var sensor of sensors)
-                    sensor.chart.update();
             }
+
+            for(var sensor of sensors)
+                sensor.chart.update();
         }
 
-        console.log(lastTime);
         xhr.open('GET', API_URL + '/get-data/' + lastTime, true);
         xhr.send();
     }
