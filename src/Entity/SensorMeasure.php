@@ -14,7 +14,6 @@ class SensorMeasure
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"get"})
      */
     private $id;
 

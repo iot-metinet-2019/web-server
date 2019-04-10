@@ -29,16 +29,24 @@ class MainController extends AbstractController
 
     /**
      * Envoie toutes les données en une seul fois
-     * @Rest\Get("/init")
+     * @Rest\Get("/get-data/{from}")
      */
-    public function init(Serializer $serializer, MeasureRepository $measureRepository, SensorMeasureRepository $sensorMeasureRepository, SensorRepository $sensorRepository)
+    public function getData(Serializer $serializer, MeasureRepository $measureRepository, $from)
     {
-        $measures = $measureRepository->findAll();
-        $sensors     = $sensorRepository->findAll();
-        $allMeasures = $serializer->serialize($measures, 'json', ['groups' => 'get']);
-        $allSensors  = $serializer->serialize($sensors, 'json', ['groups' => 'sensors']);
+        $measures = $measureRepository->findAllWithTimeGreaterThan(new DateTime('@' . (int)$from));
+        $measuresData = $serializer->serialize($measures, 'json', ['groups' => 'get']);
 
-        $data = ['measures' => json_decode($allMeasures), 'sensors' => json_decode($allSensors)];
+        return new JsonResponse(json_encode($measures), 200, [], true);
+    }
+
+    /**
+     * Récupère la liste des capteurs
+     * @Rest\Get("/get-sensors")
+     */
+    public function getSensors(Serializer $serializer, SensorRepository $sensorRepository)
+    {
+        $sensors = $sensorRepository->findAll();
+        $sensorsData = $serializer->serialize($sensors, 'json', ['groups' => 'sensors']);
 
         return new JsonResponse(json_encode($data), 200, [], true);
     }

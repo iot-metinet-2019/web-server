@@ -19,6 +19,17 @@ class MeasureRepository extends ServiceEntityRepository
         parent::__construct($registry, Measure::class);
     }
 
+    public function findAllWithTimeGreaterThan(\DateTime $time): array
+    {
+        $query = $this->createQueryBuilder('m')
+            ->where('m.time > :time')
+            ->orderBy('m.id', 'ASC')
+            ->setParameter('time', $time, \Doctrine\DBAL\Types\Type::DATETIME)
+            ->getQuery();
+
+        return $query->execute();
+    }
+
     // /**
     //  * @return Measure[] Returns an array of Measure objects
     //  */

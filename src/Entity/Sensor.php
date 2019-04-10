@@ -22,13 +22,13 @@ class Sensor
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"get", "sensors"})
+     * @Groups({"sensors"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Groups({"get", "sensors"})
+     * @Groups({"sensors"})
      */
     private $mac;
 
@@ -39,7 +39,7 @@ class Sensor
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"get", "sensors"})
+     * @Groups({"sensors"})
      */
     private $type;
 
